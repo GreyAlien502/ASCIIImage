@@ -34,6 +34,7 @@ def setSize(image,x,y):
 
 def mirror(image):
 	image = complete(image)	
+	imagelecian = image.splitlines()
 	nuvoimage = ""
 	for imagelecian_item in imagelecian:
 		reverse = imagelecian_item[::-1]
