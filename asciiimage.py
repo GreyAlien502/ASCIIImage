@@ -2,33 +2,15 @@ import re
 import ASCIIImage.manipulate as man
 
 class asciiimage:
-	def __init__(self, content,origin):
-		self.content = content
+	def __init__(self, content,origin = [0,0]):
 		self.origin = origin
-		self = self.complete()
-	def __init__(self, content):
-		self.content = content
-		self.origin = [0,0]
-		self = self.complete()
+		self.content = man.complete(content)
 
 	def __str__(self):
 		return self.content
 
-	def replace_all(text,dic):
-		map = {ord(k): ord(v) for k, v in dic.items()}
-		inv_map = {ord(v): ord(k) for k, v in dic.items()}
-		map.update(inv_map)
-		return text.translate(map)
-
 	def complete(self):
-		image = str(self)
-		imagelecian = image.splitlines()
-		width = max([len(i) for i in image.splitlines()])
-		nuvoimage = ""
-		for imagelecian_item in imagelecian:
-			spacenum = width-len(imagelecian_item)
-			nuvoimage += imagelecian_item+" "*spacenum +"\n"
-		return asciiimage(nuvoimage,self.origin)
+		return asciiimage(man.complete(str(self),self.origin))
 			 
 
 	def getWidth(self):
@@ -42,16 +24,16 @@ class asciiimage:
 		minxi = -self.origin[0]
 		minyi = -self.origin[1]
 		maxxi = minxi+self.getWidth()
-		maxyd = manyi+self.getLength()
+		maxyi = minyi+self.getLength()
 		
 		dminx = minx-minxi
 		dminy = miny-minyi
 		dmaxx = maxx-maxxi
 		dmaxy = maxy-maxyi
 
-		if dminx > 0: prex = dminx
+		if dminx < 0: prex = -dminx
 		else: prex = 0
-		if dminy > 0: prey = dminy
+		if dminy < 0: prey = -dminy
 		else: prey = 0
 		if dmaxx > 0: postx = dmaxx
 		else: postx = 0
@@ -75,32 +57,15 @@ class asciiimage:
 			self.getLength()-self.origin[1]])
 
 	def overlay(self,overlaid,x,y):
-		overlecian = str(overlaid).splitlines()
-		wimage = self.getWidth()
-		limage = self.getLength()
-		wover = overlaid.getWidth()
-		lover = overlaid.getLength()
-		image = self.expandBounds(x,y,x+wover,y+lover)
+		nuvoimage = self.expandBounds(
+						x-overlaid.origin[0],
+						y-overlaid.origin[1],
+						x-overlaid.origin[0]+overlaid.getWidth(),
+						y-overlaid.origin[1]+overlaid.getLength())
+		offsetx = x + nuvoimage.origin[0] - overlaid.origin[0]
+		offsety = y + nuvoimage.origin[1] - overlaid.origin[1]
 
-		overlecian = overlaid.splitlines()
-		imagelecian = str(image).splitlines()
-		if y==0:
-			nuvoimage=""
-		else:
-			nuvoimage = "\n".join(imagelecian[:y])+"\n"
-		for i in range(0,lover):
-			nuvoimage += imagelecian[y+i][:x]
-			for j in range(0,len(overlecian[i])):
-				if overlecian[i][j] != " ":
-					nuvoimage+=overlecian[i][j]
-				else:
-					nuvoimage+=imagelecian[y+i][x+j]
-			nuvoimage+=imagelecian[y+i][x+j+1:]+"\n"
-		nuvoimage += "\n".join(imagelecian[y+lover:])
-		return asciiimage(nuvoimage,image.origin)
-
-
-
+		return asciiimage(man.overlay(str(nuvoimage),str(overlaid),offsetx,offsety),nuvoimage.origin)
 
 	def cropx(self,minx,maxx):
 		image = str(self)
