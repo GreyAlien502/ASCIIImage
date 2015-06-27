@@ -9,6 +9,9 @@ class asciiimage:
 	def __str__(self):
 		return self.content
 
+	def c(self):
+		return self
+
 	def complete(self):
 		return asciiimage(man.complete(str(self),self.origin))
 			 

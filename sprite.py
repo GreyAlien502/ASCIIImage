@@ -1,21 +1,25 @@
 import ASCIIImage.manipulate as manipulate
 from ASCIIImage.asciiimage import asciiimage
 
-class sprite(asciiimage):
-	def __init__(self,n={},state=[],origin = [0,0]):
-		self.n = n
-		self.state = state
-		self.origin = origin
+class sprite:
+	def __init__(self,n=None,state=None):
+		if n == None: self.n = {}
+		else: self.n = n
+		
+		if state == None: self.state = []
+		else: self.state = state
 	def __str__(self):
+		return str(self.c())
+	def c(self):
 		output = asciiimage('\n')
 		for i in range(len(self.state)):
 			output = output.overlay(
-				self.n[self.state[i][0]],
+				self.n[self.state[i][0]].c(),
 				self.state[i][1][0],
 				self.state[i][1][1])
 
-		return str(output)
-	def include(self, path,filename,origin,spacechar = '',alphachar = ''):
+		return output
+	def include(self,path,filename,origin,spacechar = '',alphachar = ''):
 		addfile = open(path+'/'+filename,'r')
 		image = addfile.read()
 		
@@ -39,9 +43,8 @@ class sprite(asciiimage):
 					Y = int(plecian[7])
 					self.state.append([name,[X,Y]])
 			if kind == 'sprite':
-				actuasprite = sprite({},[])
+				actuasprite = sprite()
 				actuasprite.be(path+'/'+name)
-				actuasprite.origin = [x,y]
 				self.n.update({name:actuasprite})
 				if len(plecian) == 6:
 					X = int(plecian[4])
