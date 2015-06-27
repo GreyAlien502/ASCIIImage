@@ -2,20 +2,19 @@ import ASCIIImage.manipulate as manipulate
 from ASCIIImage.asciiimage import asciiimage
 
 class sprite(asciiimage):
-	def __init__(self,n,state,origin = [0,0]):
+	def __init__(self,n={},state=[],origin = [0,0]):
 		self.n = n
 		self.state = state
 		self.origin = origin
 	def __str__(self):
-		output = "\n"
+		output = asciiimage('\n')
 		for i in range(len(self.state)):
-			output = manipulate.overlay(
-				output,
-				str(self.n[self.state[i][0]]),
+			output = output.overlay(
+				self.n[self.state[i][0]],
 				self.state[i][1][0],
 				self.state[i][1][1])
 
-		return output
+		return str(output)
 	def include(self, path,filename,origin,spacechar = '',alphachar = ''):
 		addfile = open(path+'/'+filename,'r')
 		image = addfile.read()
