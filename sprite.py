@@ -14,7 +14,7 @@ class sprite(asciiimage):
 				self.state[i][1],
 				self.state[i][2])
 		return output
-	def add(filename,spacechar = ''):
+	def include(filename,spacechar = ''):
 		addfile = open(name,'r')
 		contents = addfile.read()
 		displayname = name[-name[::-1].index('/'):]
