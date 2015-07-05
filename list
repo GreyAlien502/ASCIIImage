@@ -1,0 +1,2 @@
+sprite	name(	X	Y)
+asciiimage	name	x	y	space	alpha(	X	Y)

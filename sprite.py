@@ -32,12 +32,14 @@ class sprite:
 		filelecian = open(path+"/list",'r').read().splitlines()
 		for filelecian_item in filelecian:
 			plecian = filelecian_item.split('\t')
-			name = plecian[0]
-			x = int(plecian[1])
-			y = int(plecian[2])
-			kind = plecian[3]
+			kind = plecian[0]
+			name = plecian[1]
 			if kind == 'asciiimage':
-				self.include(path,name,[x,y],plecian[4],plecian[5])
+				x = plecian[2]
+				y = plecian[3]
+				spacechar = plecian[4]
+				alphachar = plecian[5]
+				self.include(path,name,[x,y],spacechar,alphachar)
 				if len(plecian) == 8:
 					X = int(plecian[6])
 					Y = int(plecian[7])
