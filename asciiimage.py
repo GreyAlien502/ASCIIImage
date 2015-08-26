@@ -102,3 +102,11 @@ class asciiimage:
 	def crop(self,x,y):
 		image = cropy(image,y)
 		return cropx(image,x)
+	
+	def fill(self,minx,miny,maxx,maxy,char):
+		image = str(self).splitlines()
+		nuvoimage = image[:miny]
+		for line in image[miny:maxy]:
+			nuvoimage.append(line[:minx]+char*(maxx-minx)+line[maxx:])
+		nuvoimage.append('')
+		return '\n'.join(nuvoimage)
