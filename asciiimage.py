@@ -73,40 +73,32 @@ class asciiimage:
 	def cropx(self,minx,maxx):
 		image = str(self)
 		x = self.origin[0]
-		w = self.getWidth()
-		imagelecian=image.splitlines()
-		nuvoimage=""
-		if minx < x: prex = x-minx
-		else: prex = 0
-		if maxx > w+x: postx = w+x-maxx
-		else: postx = w+x 
+		image=man.cropx(image,minx+x,maxx+x)
 
-		for imagelecian_item in imagelecian:
-			nuvoimage+=imagelecian_item[prex:postx]+'\n'
-		return nsciiimage(nuvoimage,[self.origin[0]-prex,self.origin[1]])
+		return asciiimage(image,[x-minx,self.origin[1]])
 
 	def cropy(self,miny,maxy):
+		image = str(self)
 		y = self.origin[1]
-		l = self.getLength()
-		imagelecian=str(self).splitlines()
-		nuvoimage = ""
-		if imagelecian == []:
-			return "\n"
-		else:
-			if miny < y: prey = y-miny
-			else: prey = 0
-			if maxy < l+y: posty = l+y+maxy
-			else: posty = l+y
-			return "\n"*prey+"\n".join(imagelecian[:posty])
+		image=man.cropy(image,miny+y,maxy+y)
 
-	def crop(self,x,y):
-		image = cropy(image,y)
-		return cropx(image,x)
+		return asciiimage(image,[self.origin[0],y-miny])
+
+	def crop(self,minx,miny,maxx,maxy):
+		image = self.cropy(miny,maxy)
+		return image.cropx(minx,maxx)
 	
 	def fill(self,minx,miny,maxx,maxy,char):
-		image = str(self).splitlines()
+		image = self.expandBounds(minx,miny,maxx,maxy)
+		origin = image.origin
+
+		minx = minx+origin[0]
+		maxx = maxx+origin[0]
+		miny = miny+origin[1]
+		maxy = maxy+origin[1]
+
+		image = str(image).splitlines()
 		nuvoimage = image[:miny]
 		for line in image[miny:maxy]:
 			nuvoimage.append(line[:minx]+char*(maxx-minx)+line[maxx:])
-		nuvoimage.append('')
-		return '\n'.join(nuvoimage)
+		return asciiimage('\n'.join(nuvoimage+image[maxy:]+['']),origin)

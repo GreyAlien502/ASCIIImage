@@ -115,20 +115,20 @@ def append(image1, image2):
 		nuvoimage += image1lecian[i]+image2lecian[i]+"\n"
 	return nuvoimage
 
-def cropx(image,x):
+def cropx(image,minx,maxx):
 	imagelecian=image.splitlines()
 	nuvoimage=""
 	for imagelecian_item in imagelecian:
-		nuvoimage+=imagelecian_item[:x]+'\n'
+		nuvoimage+=imagelecian_item[minx:maxx]+'\n'
 	return nuvoimage
 
-def cropy(image,y):
+def cropy(image,miny,maxy):
 	imagelecian=image.splitlines()
 	if imagelecian == []:
 		return "\n"
 	else:
-		return "\n".join(imagelecian[:y])
+		return "\n".join(imagelecian[miny:maxy])
 
-def crop(image,x,y):
-	image = cropy(image,y)
-	return cropx(image,x)
+def crop(image,minx,miny,maxx,maxy):
+	image = cropy(image,miny,maxy)
+	return cropx(image,minx,maxx)

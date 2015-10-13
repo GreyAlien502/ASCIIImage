@@ -35,8 +35,8 @@ class sprite:
 			kind = plecian[0]
 			name = plecian[1]
 			if kind == 'asciiimage':
-				x = plecian[2]
-				y = plecian[3]
+				x = int(plecian[2])
+				y = int(plecian[3])
 				spacechar = plecian[4]
 				alphachar = plecian[5]
 				self.include(path,name,[x,y],spacechar,alphachar)
