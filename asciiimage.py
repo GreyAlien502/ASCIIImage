@@ -22,6 +22,18 @@ class asciiimage:
 	def getLength(self):
 		return str(self).count("\n")
 
+	def minx(self):
+		return -self.origin[0]
+
+	def maxx(self):
+		return self.getWidth()-self.origin[0]
+
+	def miny(self):
+		return -self.origin[1]
+
+	def maxy(self):
+		return self.getLength()-self.origin[1]
+
 	def expandBounds(self,minx,miny,maxx,maxy):
 		image = str(self)
 		minxi = -self.origin[0]
