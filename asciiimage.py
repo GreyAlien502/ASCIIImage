@@ -101,6 +101,8 @@ class asciiimage:
 		return image.cropx(minx,maxx)
 	
 	def fill(self,minx,miny,maxx,maxy,char):
+		if isinstance(char,asciiimage):
+			char=char.content[0]
 		image = self.expandBounds(minx,miny,maxx,maxy)
 		origin = image.origin
 
