@@ -2,12 +2,15 @@ import ASCIIImage.manipulate as manipulate
 from ASCIIImage.asciiimage import asciiimage
 
 class sprite:
-	def __init__(self,n=None,state=None):
+	def __init__(self,path,n=None,state=None):
 		if n == None: self.n = {}
 		else: self.n = n
 		
 		if state == None: self.state = []
 		else: self.state = state
+
+		if path != None:
+			self.be(path)
 	def __str__(self):
 		return str(self.c())
 	def c(self):
