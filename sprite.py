@@ -14,6 +14,7 @@ class sprite:
 
 	def __str__(self):
 		return str(self.c())
+
 	def c(self):
 		output = asciiimage('\n')
 		for i in range(len(self.state)):
@@ -23,6 +24,7 @@ class sprite:
 				self.state[i][1][1])
 
 		return output
+
 	def include(self,path,filename,origin,spacechar = '',alphachar = ''):
 		addfile = open(path+'/'+filename,'r')
 		image = addfile.read()
@@ -56,4 +58,7 @@ class sprite:
 					X = int(plecian[4])
 					Y = int(plecian[5])
 					self.state.append([name,[X,Y]])
-
+	def add(self,sprite,index,location=None):
+		self.n[index]=sprite
+		if x != None:
+			self.state[index]=location
