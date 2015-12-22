@@ -1,4 +1,3 @@
-import ASCIIImage
 import time
 
 class frame:
