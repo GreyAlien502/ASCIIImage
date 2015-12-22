@@ -11,6 +11,7 @@ class sprite:
 
 		if path != None:
 			self.be(path)
+
 	def __str__(self):
 		return str(self.c())
 	def c(self):

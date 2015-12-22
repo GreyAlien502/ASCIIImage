@@ -1,24 +1,38 @@
 import time
 
 class frame:
-	def __init__(self,content,time,formatt='n'):
+	def __init__(self,content,time):
 		self.content = content
 		self.time = time
 
 class asciivideo:
-	def __init__(self,frames=[],formatt='n'):
-		for frame in frames:
-			if frame.formatt!=formatt:
-				print('error')
-		self.frames = frames
-	
-	def sort(self):
-		def time(frame):
-			return frame.time
-		self.frames.sort(key=time)
-	
-	def compile(self):
-		self.sort()
+	def __init__(self,frames=[]):
+		self.frames = frames # don't mess with this, sue addFrame
+
+	def minx(self):
+		return min([frame.minx() for frame in self.frames])
+
+	def maxx(self):
+		return max([frame.maxx() for frame in self.frames])
+
+	def miny(self):
+		return min([frame.miny() for frame in self.frames])
+
+	def maxy(self):
+		return max([frame.maxy() for frame in self.frames])
+
+	def addFrame(self,frame):
+		self.frames.append(frame)
+		if frame.time < self.frames[-2].time:
+			def time(frame):
+				return frame.time
+			self.frames.sort(key=time)
+
+	def compile(self,minx=None,miny=None,maxx=None,maxx=None):
+		if minx=None: minx=self.minx()
+		if maxx=None: maxx=self.maxx()
+		if miny=None: miny=self.miny()
+		if maxy=None: maxy=self.maxy()
 
 		data = "{:03d}y{:06d}".format(self.length,self.frames)
 		for i in range(len(self.frames)-1):
@@ -29,14 +43,12 @@ class asciivideo:
 			data += frame.content + delay+"\n"
 		return data
 
-	def export(self,filepath):
+	def export(self,filepath,length,width):
 		f = open(filepath,'r')
 		f.write(self.compile())
 		f.close()
 	
 	def play(self):
-		self.sort()
-
 		for i in range(len(self.frames)-1):
 			actuaframe = self.frames[i]
 			nextframe  = self.frames[i+1]
