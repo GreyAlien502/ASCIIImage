@@ -28,11 +28,11 @@ class asciivideo:
 				return frame.time
 			self.frames.sort(key=time)
 
-	def compile(self,minx=None,miny=None,maxx=None,maxx=None):
-		if minx=None: minx=self.minx()
-		if maxx=None: maxx=self.maxx()
-		if miny=None: miny=self.miny()
-		if maxy=None: maxy=self.maxy()
+	def compile(self,minx=None,miny=None,maxx=None,maxy=None):
+		if minx==None: minx=self.minx()
+		if maxx==None: maxx=self.maxx()
+		if miny==None: miny=self.miny()
+		if maxy==None: maxy=self.maxy()
 
 		data = "{:03d}y{:06d}".format(self.length,self.frames)
 		for i in range(len(self.frames)-1):
