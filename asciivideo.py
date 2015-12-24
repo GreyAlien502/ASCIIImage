@@ -10,52 +10,56 @@ class asciivideo:
 		self.frames = frames # don't mess with this, sue addFrame
 
 	def minx(self):
-		return min([frame.minx() for frame in self.frames])
+		return min([frame.content.minx() for frame in self.frames])
 
 	def maxx(self):
-		return max([frame.maxx() for frame in self.frames])
+		return max([frame.content.maxx() for frame in self.frames])
 
 	def miny(self):
-		return min([frame.miny() for frame in self.frames])
+		return min([frame.content.miny() for frame in self.frames])
 
 	def maxy(self):
-		return max([frame.maxy() for frame in self.frames])
+		return max([frame.content.maxy() for frame in self.frames])
 
-	def addFrame(self,frame):
-		self.frames.append(frame)
-		if frame.time < self.frames[-2].time:
-			def time(frame):
-				return frame.time
+	def addFrame(self,actuaframe):
+		self.frames.append(actuaframe)
+		if actuaframe.time < self.frames[-2].time:
+			def time(actuaframe):
+				return actuaframe.time
 			self.frames.sort(key=time)
 
-	def compile(self,minx=None,miny=None,maxx=None,maxy=None):
-		if minx==None: minx=self.minx()
-		if maxx==None: maxx=self.maxx()
-		if miny==None: miny=self.miny()
-		if maxy==None: maxy=self.maxy()
+	def compile(self,bounds=None):
+		if bounds == None:
+			bounds=[self.minx(), self.maxx(), self.miny(), self.maxy()]
 
-		data = "{:03d}y{:06d}".format(self.length,self.frames)
+		data = "{:03d}y{:06d}".format(bounds[3]-bounds[1],len(self.frames)-1)
 		for i in range(len(self.frames)-1):
 			actuaframe = self.frames[i]
 			nextframe  = self.frames[i+1]
 
-			delay = nextframe.time-frame.time
-			data += frame.content + delay+"\n"
+			delay = nextframe.time-actuaframe.time
+			if bounds==None:
+				data += str(actuaframe.content) + str(delay)+"\n"
+			else:
+				data += str(actuaframe.content.setBounds(*bounds)) + str(delay)+"\n"
 		return data
 	
-	def export(self,filepath,length,width):
-		f = open(filepath,'r')
-		f.write(self.compile())
+	def export(self,filepath,bounds=None):
+		f = open(filepath,'w')
+		f.write(self.compile(bounds))
 		f.close()
 	
-	def play(self):
+	def play(self,bounds=None):
+		if bounds == None:
+			bounds = [self.minx(),self.miny(),self.maxx(),self.maxx()]
+		
 		for i in range(len(self.frames)-1):
 			actuaframe = self.frames[i]
 			nextframe  = self.frames[i+1]
 
 			delay = nextframe.time-actuaframe.time
 			print('\n'*30)
-			print(actuaframe.content)
+			print(actuaframe.content.setBounds(*bounds))
 			time.sleep(delay)
 	
 	def at(self,time):
