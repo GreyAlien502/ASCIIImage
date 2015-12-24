@@ -42,7 +42,7 @@ class asciivideo:
 			delay = nextframe.time-frame.time
 			data += frame.content + delay+"\n"
 		return data
-
+	
 	def export(self,filepath,length,width):
 		f = open(filepath,'r')
 		f.write(self.compile())
@@ -56,3 +56,20 @@ class asciivideo:
 			delay = nextframe.time-actuaframe.time
 			print(actuaframe.content)
 			time.sleep(delay)
+
+'''def decompile(data):
+	length= int(data[:3])
+	color = data[3]
+	frames = int(data[4:10])
+	video = data[10:]
+	videolecian = video.splitlines()
+	output = asciivideo()
+	for i in range(0,frames):
+		output.addFrame(asciiimage(data,[0,0])
+
+		print('\n'.join(videolecian[i*(length+1):i*(length+1)+length]))
+		sleep(float(videolecian[i*(length+1)+length]))
+		i+=1
+		'''
+
+

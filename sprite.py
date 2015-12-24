@@ -8,6 +8,7 @@ class sprite:
 
 		if path != None:
 			self.be(path)
+		self.parent = None
 
 	def __str__(self):
 		return str(self.c())
@@ -15,22 +16,22 @@ class sprite:
 	def c(self):
 		output = asciiimage('\n')
 		for component in self.components:
-			if component[1]!= None:
+			if component[2]!= None:
 				output = output.overlay(
 					component[0].c(),
-					component[1][0],
-					component[1][1])
+					component[2][0],
+					component[2][1])
 
 		return output
 	
 	def copy(self):
-		components = []
+		copied = sprite()
 		for component in self.components:
-			if type(component) == asciiimage:
-				contents.append(component)
+			if type(component[0]) == asciiimage:
+				copied.add(*component)
 			else:
-				components.append(component.copy())
-		return sprite(None,components)
+				copied.add(component[0].copy(),component[1],component[2])
+		return copied
 
 	def  be(self, path):
 		f = open(path+"/list",'r')
@@ -40,41 +41,55 @@ class sprite:
 			plecian = filelecian_item.split('\t')
 			kind = plecian[0]
 			name = plecian[1]
+			location = None
 			if kind == 'asciiimage':
 				x = int(plecian[2])
 				y = int(plecian[3])
 				spacechar = plecian[4]
 				alphachar = plecian[5]
 
-				addfile = open(path+'/'+plecian[1],'r')
+				addfile = open(path+'/'+name,'r')
 				image = addfile.read()
 				addfile.close()
-
-				location = None
-				if len(plecian) == 8:
-					X = int(plecian[6])
-					Y = int(plecian[7])
-					location = [X,Y]
 		
 				if spacechar != '':
 					image = image.translate(''.maketrans(spacechar,'\u00A0'))
 				if alphachar != '':
 					image = image.translate(''.maketrans(alphachar,' '))
 				content = asciiimage(image,[x,y])
+
+				if len(plecian) == 8:
+					X = int(plecian[6])
+					Y = int(plecian[7])
+					location = [X,Y]
 			elif kind == 'sprite':
 				content = sprite(path+'/'+name)
-				self.components.append([{name:actuasprite},None])
-				location = None
-				if len(plecian) == 6:
-					X = int(plecian[4])
-					Y = int(plecian[5])
+				if len(plecian) == 4:
+					X = int(plecian[2])
+					Y = int(plecian[3])
 					location=[X,Y]
-			self.add(content,location)
+			self.add(content,name,location)
 
-	def add(self,sprite,location=None):
-		self.components.append([sprite,location])
-			
+	def getIndex(self,name):
+		return next(i for i in range(len(self.components)) if self.components[i][1] == name)
+	
+	def active(self):
+		return next(component for component in self.components if component[2] != None)
 
-	def put(self,actuasprite,location):
-		spritenum = next(i for i in len(self.components) if self.components[i][0] == actuasprite)
-		self.components[spritenum][1] = location
+	def named(self,name):
+		return self.components[self.getIndex(name)]
+
+	def add(self,actuasprite,name,location=None):
+		self.components.append([actuasprite,name,location])
+		actuasprite.parent = self
+
+	def put(self,name,location):
+		self.named(name)[2] = location
+
+	def setIndex(self,name,index):
+		components = self.components
+		components.insert(index, components.pop(self.getIndex(actuasprite)))
+	
+	def remove(self,name):
+		self.components[self.getIndex(name)].parent = None
+		del self.components[self.getIndex(name)]
