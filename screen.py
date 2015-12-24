@@ -42,7 +42,7 @@ class screen:
 			t+=framerate
 
 def add(background,thissprite,name,location=None):
-	background.add(thissprite,name,location)
+	background.add(thissprite.copy(),name,location)
 
 def put(background,name,location):
 	background.put(name,location)
