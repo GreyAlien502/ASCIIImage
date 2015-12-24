@@ -101,8 +101,9 @@ class asciiimage:
 		return image.cropx(minx,maxx)
 	
 	def setBounds(self,minx,miny,maxx,maxy):
-		self.expandBounds(minx,miny,maxx,maxy)
-		self.crop(minx,miny,maxx,maxy)
+		image = self.expandBounds(minx,miny,maxx,maxy)
+		image = image.crop(minx,miny,maxx,maxy)
+		return image
 
 	def fill(self,minx,miny,maxx,maxy,char):
 		if isinstance(char,asciiimage):

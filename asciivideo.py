@@ -54,8 +54,14 @@ class asciivideo:
 			nextframe  = self.frames[i+1]
 
 			delay = nextframe.time-actuaframe.time
+			print('\n'*30)
 			print(actuaframe.content)
 			time.sleep(delay)
+	
+	def at(self,time):
+		for frame in self.frames:
+			if frame.time >= time:
+				return frame
 
 '''def decompile(data):
 	length= int(data[:3])

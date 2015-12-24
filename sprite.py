@@ -88,8 +88,8 @@ class sprite:
 
 	def setIndex(self,name,index):
 		components = self.components
-		components.insert(index, components.pop(self.getIndex(actuasprite)))
+		components.insert(index, components.pop(self.getIndex(name)))
 	
 	def remove(self,name):
-		self.components[self.getIndex(name)].parent = None
+		self.components[self.getIndex(name)][0].parent = None
 		del self.components[self.getIndex(name)]
