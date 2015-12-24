@@ -41,8 +41,8 @@ class screen:
 			self.events.append([put,[name,[x(t),y(t)]],t])
 			t+=framerate
 
-def add(background,thissprite,name,location=None):
-	background.add(thissprite.copy(),name,location)
+def add(background,thissprite,name,location=None,index=None):
+	background.add(thissprite.copy(),name,location,index)
 
 def put(background,name,location):
 	background.put(name,location)

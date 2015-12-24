@@ -12,10 +12,52 @@ class sprite:
 
 	def __str__(self):
 		return str(self.c())
+	
+	def __len__(self):
+		return len(self.components)
+	
+	def __getitem__(self,key):
+		if type(key) == int:
+			return self.components[key]
+		elif type(key) == str:
+			return self.components[self.getIndex(key)]
+		elif type(key) == slice:
+			indexes = key.indices(len(self.components))
+			i=indexes[0]
+			output = []
+			while i > indexes[1]:
+				output.append(self[i])
+				i+=indexes[2]
+			return output
+
+	def __setitem__(self,key,value):
+		if type(key) == int:
+			self.components[key] = value
+		elif type(key) == str:
+			self.components[self.getIndex(key)] = value
+		elif type(key) == slice:
+			indexes = key.indices(len(self.components))
+			i=indexes[0]
+			while i > indexes[1]:
+				self[i]=value[i]
+				i+=indexes[2]
+			return output
+
+	def __delitem__(self,key):
+		if type(key) == int:
+			del self.components[key]
+		elif type(key) == str:
+			del self.components[self.getIndex(key)]
+		elif type(key) == slice:
+			indexes = key.indices(len(self.components))
+			i=indexes[0]
+			while i > indexes[1]:
+				del self[i]
+				i+=indexes[2]
 
 	def c(self):
 		output = asciiimage('\n')
-		for component in self.components:
+		for component in self:
 			if component[2]!= None:
 				output = output.overlay(
 					component[0].c(),
@@ -26,7 +68,7 @@ class sprite:
 	
 	def copy(self):
 		copied = sprite()
-		for component in self.components:
+		for component in self:
 			if type(component[0]) == asciiimage:
 				copied.add(*component)
 			else:
@@ -71,25 +113,25 @@ class sprite:
 			self.add(content,name,location)
 
 	def getIndex(self,name):
-		return next(i for i in range(len(self.components)) if self.components[i][1] == name)
+		return next(i for i in range(len(self)) if self[i][1] == name)
 	
 	def active(self):
-		return next(component for component in self.components if component[2] != None)
+		return next(component for component in self if component[2] != None)
 
-	def named(self,name):
-		return self.components[self.getIndex(name)]
-
-	def add(self,actuasprite,name,location=None):
-		self.components.append([actuasprite,name,location])
+	def add(self,actuasprite,name,location=None,index=None):
+		if index ==None:
+			self.components.append([actuasprite,name,location])
+		else:
+			self.components.insert(index,[actuasprite,name,location])
 		actuasprite.parent = self
 
 	def put(self,name,location):
-		self.named(name)[2] = location
+		self[name][2] = location
 
 	def setIndex(self,name,index):
 		components = self.components
 		components.insert(index, components.pop(self.getIndex(name)))
 	
 	def remove(self,name):
-		self.components[self.getIndex(name)][0].parent = None
-		del self.components[self.getIndex(name)]
+		self[name][0].parent = None
+		del self[name]
