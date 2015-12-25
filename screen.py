@@ -17,17 +17,18 @@ class screen:
 	def c(self):
 		output = asciivideo([frame(self.init.c(),0)])
 		actuaview = self.init.copy()
-		def time(event):return event[2]
+		def time(event):return event[1]
 		self.events.sort(key=time)
 		i=0
 		while i < len(self.events):
-			time = self.events[i][2]
-			while i < len(self.events) and self.events[i][2] == time:
+			time = self.events[i][1]
+			while i < len(self.events) and self.events[i][1] == time:
 				event = self.events[i]
-				event[0](*[actuaview]+event[1])
+				event[0](actuaview)
 				i+=1
 			output.addFrame(frame(actuaview.c(),time))
 		return output 
+
 
 	def move(self,name,t_i,t_f,r_i,r_f,framerate):
 		delta_x = r_f[0]-r_i[0]
@@ -38,14 +39,17 @@ class screen:
 		def y(t):return floor(r_i[1]+delta_y/delta_t*(t-t_i))
 		t = framerate*floor(t_i/framerate+1)
 		while t < t_f:
-			self.events.append([put,[name,[x(t),y(t)]],t])
+			self.put(t,name,[x(t),y(t)])
 			t+=framerate
+		t = t_f
+		self.put(t,name,[x(t),y(t)])
 
-def add(background,thissprite,name,location=None,index=None):
-	background.add(thissprite.copy(),name,location,index)
+	def add(self,time,thissprite,name,location=None,index=None):
+		def f(bg):
+			bg.add(thissprite.copy(),name,location,index)
+		self.events.append([f,time])
 
-def put(background,name,location):
-	background.put(name,location)
-
-		
-
+	def put(self,time,name,location):
+		def f(bg):
+			bg[name][2] = location
+		self.events.append([f,time])
