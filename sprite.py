@@ -138,6 +138,10 @@ class sprite:
 	
 	def replace(self,old,new,position=None):
 		if position == None:
-			position = self[old][1]
-		self[old][1] = None
-		self[new][1] = position
+			position = self[old][2]
+		self[old][2] = None
+		self[new][2] = position
+	
+	def setState(self,component,state,position=None):
+		target = self[component]
+		target.replace(target.active[1],target[state],position)
