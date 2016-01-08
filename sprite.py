@@ -135,3 +135,9 @@ class sprite:
 	def remove(self,name):
 		self[name][0].parent = None
 		del self[name]
+	
+	def replace(self,old,new,position=None):
+		if position == None:
+			position = self[old][1]
+		self[old][1] = None
+		self[new][1] = position

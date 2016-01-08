@@ -5,7 +5,7 @@ from ASCIIImage.sprite     import sprite
 from math import floor
 
 class screen:
-	def __init__(self,initial_sprite,length=None,width=None):
+	def __init__(self,initial_sprite=None,length=None,width=None):
 		self.length = length
 		self.width = width
 		self.events = []
