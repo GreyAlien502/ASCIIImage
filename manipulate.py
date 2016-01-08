@@ -43,6 +43,7 @@ def mirror(image):
 			"<":">",
 			"b":"d",
 			"P":"9",
+			"'":"`",
 			",":"."})
 		nuvoimage+=reverse+"\n"
 	return nuvoimage
