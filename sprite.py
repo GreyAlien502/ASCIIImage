@@ -143,5 +143,5 @@ class sprite:
 		self[new][2] = position
 	
 	def setState(self,component,state,position=None):
-		target = self[component]
-		target.replace(target.active[1],target[state],position)
+		target = self[component][0]
+		target.replace(target.active()[1],state,position)
