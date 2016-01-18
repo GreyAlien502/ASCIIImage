@@ -53,3 +53,13 @@ class screen:
 		def f(bg):
 			bg[name][2] = location
 		self.events.append([f,time])
+	
+	def cycle(self,name,t_i,t_f,component,statelecian,period):
+		states = len(statelecian)
+		i=0
+		while t_i+period*i < t_f:
+			if name == None:
+				self.events.append([lambda x,state=statelecian[i%states]:x.setState(component,state),t_i+i*period])
+			else:
+				self.events.append([lambda x,state=statelecian[i%states],name=name:x[name][0].setState(component,state),t_i+i*period])
+			i+=1

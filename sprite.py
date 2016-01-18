@@ -29,6 +29,10 @@ class sprite:
 				output.append(self[i])
 				i+=indexes[2]
 			return output
+		elif type(key) == list:
+			if key == []:
+				return self
+			return self[key[0]][0][key[1:]]
 
 	def __setitem__(self,key,value):
 		if type(key) == int:
@@ -41,7 +45,11 @@ class sprite:
 			while i > indexes[1]:
 				self[i]=value[i]
 				i+=indexes[2]
-			return output
+		elif type(key) == list:
+			if len(key) == 1:
+				self[key[0]] = value
+			else:
+				self[key[0]][key[1:]]=value
 
 	def __delitem__(self,key):
 		if type(key) == int:
@@ -54,6 +62,11 @@ class sprite:
 			while i > indexes[1]:
 				del self[i]
 				i+=indexes[2]
+		elif type(key) == list:
+			if len(key) ==1:
+				del self[key[0]]
+			else:
+				del self[key[0]][0][key[1:]]
 
 	def c(self):
 		output = asciiimage('\n')
