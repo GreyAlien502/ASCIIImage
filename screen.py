@@ -48,7 +48,12 @@ class screen:
 		def f(bg):
 			bg.add(thissprite.copy(),name,location,index)
 		self.events.append([f,time])
-
+	
+	def remove(self,time,name):
+		def f(bg):
+			bg.remove(name)
+		self.events.append([f,time])
+		
 	def put(self,time,name,location):
 		def f(bg):
 			bg[name][2] = location

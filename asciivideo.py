@@ -1,4 +1,5 @@
 import time
+from ASCIIImage.asciiimage import asciiimage
 
 class frame:
 	def __init__(self,content,time):
@@ -6,7 +7,9 @@ class frame:
 		self.time = time
 
 class asciivideo:
-	def __init__(self,frames=[]):
+	def __init__(self,frames=None):
+		if frames == None:
+			frames = [frame(asciiimage('\n'),0)]
 		self.frames = frames # don't mess with this, sue addFrame
 
 	def minx(self):
@@ -66,6 +69,17 @@ class asciivideo:
 		for frame in self.frames:
 			if frame.time >= time:
 				return frame
+	
+	def downsample(self,delay):
+		output = asciivideo()
+		t=0
+		for i in range(len(self.frames)-1):
+			if self.frames[i].time > t:
+				output.addFrame(frame(self.frames[i].content,t))
+				t+=delay
+		return output
+			
+
 
 '''def decompile(data):
 	length= int(data[:3])
