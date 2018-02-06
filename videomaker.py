@@ -1,5 +1,5 @@
-from ASCIIImage.sprite import sprite
-from ASCIIImage.manipulate import *
+from asciiimage.sprite import sprite
+from asciiimage.manipulate import *
 
 length = 20
 frames = 0

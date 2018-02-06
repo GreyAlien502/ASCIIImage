@@ -1,5 +1,5 @@
 import re
-import ASCIIImage.manipulate as man
+import asciiimage.manipulate as man
 
 class asciiimage:
 	def __init__(self, content,origin = [0,0]):

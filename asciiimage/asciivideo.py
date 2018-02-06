@@ -1,5 +1,5 @@
 import time
-from ASCIIImage.asciiimage import asciiimage
+from asciiimage.asciiimage import asciiimage
 
 class frame:
 	def __init__(self,content,time):

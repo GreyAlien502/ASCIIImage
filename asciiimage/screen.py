@@ -1,7 +1,7 @@
-from ASCIIImage.asciiimage import asciiimage
-from ASCIIImage.manipulate import *
-from ASCIIImage.asciivideo import asciivideo, frame
-from ASCIIImage.sprite     import sprite
+from asciiimage.asciiimage import asciiimage
+from asciiimage.manipulate import *
+from asciiimage.asciivideo import asciivideo, frame
+from asciiimage.sprite     import sprite
 from math import floor
 
 class screen:

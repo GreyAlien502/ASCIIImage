@@ -1,11 +1,13 @@
 import re
 
+#replace all keys and values in dict with corresponding values and keys
 def replace_all(text,dic):
 	map = {ord(k): ord(v) for k, v in dic.items()}
 	inv_map = {ord(v): ord(k) for k, v in dic.items()}
 	map.update(inv_map)
 	return text.translate(map)
 
+#pad lines to make sure they are all the same lengths
 def complete(image):
 	imagelecian = image.splitlines()
 	width = max([len(i) for i in image.splitlines()])
@@ -48,6 +50,7 @@ def mirror(image):
 		nuvoimage+=reverse+"\n"
 	return nuvoimage
 
+#overlay overlaid over image starting at (x,y)
 def overlay(image,overlaid,x,y):
 	overlecian = overlaid.splitlines()
 	wimage = getWidth(image)
@@ -93,6 +96,7 @@ def overlay(image,overlaid,x,y):
 		actuay+=1
 '''
 
+#set width by padding spaces
 def extend(image,x):
 	imagelecian = image.splitlines()
 	output = ""
@@ -100,6 +104,7 @@ def extend(image,x):
 		output = output +imagelecian[i]+ " "*x+"\n"
 	return output
 
+#append image1 below image2
 def append(image1, image2):
 	length1 = image1.count("\n")
 	length2 = image2.count("\n")

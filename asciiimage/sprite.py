@@ -1,5 +1,5 @@
-import ASCIIImage.manipulate as manipulate
-from ASCIIImage.asciiimage import asciiimage
+import asciiimage.manipulate as manipulate
+from asciiimage.asciiimage import asciiimage
 
 class sprite:
 	def __init__(self,path=None,components=None):
@@ -88,7 +88,7 @@ class sprite:
 				copied.add(component[0].copy(),component[1],component[2])
 		return copied
 
-	def  be(self, path):
+	def be(self, path):
 		f = open(path+"/list",'r')
 		filelecian = f.read().splitlines()
 		f.close()
