@@ -1,14 +1,16 @@
-import re
-
-#replace all keys and values in dict with corresponding values and keys
 def replace_all(text,dic):
+	""" Replace substrings in text
+
+	    This replaces keys with values and values with keys,
+	    so dict should be injective
+	"""
 	map = {ord(k): ord(v) for k, v in dic.items()}
 	inv_map = {ord(v): ord(k) for k, v in dic.items()}
 	map.update(inv_map)
 	return text.translate(map)
 
-#pad lines to make sure they are all the same lengths
 def complete(image):
+	""" Pad lines to make sure they are all the same lengths. """
 	imagelecian = image.splitlines()
 	width = max([len(i) for i in image.splitlines()])
 	nuvoimage = ""
@@ -19,22 +21,37 @@ def complete(image):
 		 
 
 def getWidth(image):
+	""" Return width of the image.
+	
+	    This includes whitespace.
+	    This assumes the image is rectangular.
+	"""
 	return image.index("\n")
 
 def getLength(image):
+	""" Return width of the image.
+	
+	    This includes whitespace.
+	"""
 	return image.count("\n")
 
 def setSize(image,x,y):
-	width = image.index("\n")
+	""" Return a space-padded version of image with size (x,y).
+	"""
+	width = getWidth(image)
 	length = getLength(image)
 	if x > width:
-		image = image[:width]+" "*(x-width)+image[width:]
+		image = image[:width]+" "*(x-width)+'\n'
 		image = complete(image)
 	if y > length:
 		image = image+(" "*x+"\n")*(y-length)
 	return image
 
 def mirror(image):
+	""" Flip the image across the y axis.
+
+	    Certain characters are flipped to mirror versions of themselves.
+	"""
 	image = complete(image)	
 	imagelecian = image.splitlines()
 	nuvoimage = ""
@@ -50,8 +67,14 @@ def mirror(image):
 		nuvoimage+=reverse+"\n"
 	return nuvoimage
 
-#overlay overlaid over image starting at (x,y)
 def overlay(image,overlaid,x,y):
+	""" Return original image with overlay put on top at (x,y).
+	
+	    (x,y) is where the top left corner of overlaid will be
+	    in relation 
+	    Spaces in overlaid do not replace the character below them.
+	    To replace, use non-breaking space (\u00A0).
+	"""
 	overlecian = overlaid.splitlines()
 	wimage = getWidth(image)
 	limage = getLength(image)
@@ -96,16 +119,16 @@ def overlay(image,overlaid,x,y):
 		actuay+=1
 '''
 
-#set width by padding spaces
 def extend(image,x):
+	""" Set width by padding with spaces. """
 	imagelecian = image.splitlines()
 	output = ""
 	for i in range(0,len(imagelecian)):
 		output = output +imagelecian[i]+ " "*x+"\n"
 	return output
 
-#append image1 below image2
 def append(image1, image2):
+	""" Append image1 below image2. """
 	length1 = image1.count("\n")
 	length2 = image2.count("\n")
 	if (length2 < length1):
@@ -124,6 +147,7 @@ def append(image1, image2):
 	return nuvoimage
 
 def cropx(image,minx,maxx):
+	""" Crop image down to columns minx to maxx. """
 	imagelecian=image.splitlines()
 	nuvoimage=""
 	for imagelecian_item in imagelecian:
@@ -131,6 +155,7 @@ def cropx(image,minx,maxx):
 	return nuvoimage
 
 def cropy(image,miny,maxy):
+	""" Crop image down to rows miny to maxy. """
 	imagelecian=image.splitlines()
 	if imagelecian == []:
 		return "\n"
@@ -138,5 +163,10 @@ def cropy(image,miny,maxy):
 		return "\n".join(imagelecian[miny:maxy])
 
 def crop(image,minx,miny,maxx,maxy):
+	""" Crop image to a rectangle.
+
+	    This will only leave the intersection of
+	    rows minx to maxx and columns miny to maxy.
+	"""
 	image = cropy(image,miny,maxy)
 	return cropx(image,minx,maxx)

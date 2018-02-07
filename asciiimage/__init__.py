@@ -1,4 +1,7 @@
-from .asciiimage import asciiimage
-from .asciivideo import asciivideo
-from .sprite import sprite
-from .screen import screen
+""" Provide tools to work with ASCII art images and videos.
+"""
+
+from .asciiimage import ASCIIImage
+from .asciivideo import ASCIIVideo
+from .sprite import Sprite
+from .screen import Screen

@@ -1,10 +1,10 @@
-from asciiimage.asciiimage import asciiimage
-from asciiimage.manipulate import *
-from asciiimage.asciivideo import asciivideo, frame
-from asciiimage.sprite     import sprite
+from .asciiimage import ASCIIImage
+from .asciivideo import ASCIIVideo, Frame
+from .sprite     import Sprite
+
 from math import floor
 
-class screen:
+class Screen:
 	def __init__(self,initial_sprite=None,length=None,width=None):
 		self.length = length
 		self.width = width
@@ -15,7 +15,7 @@ class screen:
 			self.init = initial_sprite
 
 	def c(self):
-		output = asciivideo([frame(self.init.c(),0)])
+		output = ASCIIVideo([frame(self.init.c(),0)])
 		actuaview = self.init.copy()
 		def time(event):return event[1]
 		self.events.sort(key=time)
@@ -45,9 +45,10 @@ class screen:
 		self.put(t,name,[x(t),y(t)])
 
 	def add(self,time,thissprite,name,location=None,index=None):
-		def f(bg):
-			bg.add(thissprite.copy(),name,location,index)
-		self.events.append([f,time])
+		self.events.append([
+			lambda bg: bg.add(thissprite.copy(),name,location,index),
+			time
+		])
 	
 	def remove(self,time,name):
 		def f(bg):
