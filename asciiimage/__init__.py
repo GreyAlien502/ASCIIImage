@@ -4,4 +4,3 @@
 from .asciiimage import ASCIIImage
 from .asciivideo import ASCIIVideo
 from .sprite import Sprite
-from .screen import Screen
