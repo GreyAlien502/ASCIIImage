@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='asciiimage',
-	version='0.1',
+	version='0.0',
 	description='Work with images made of ASCII text.',
 	url='https://github.com/GreyAlien502/ASCIIImage',
 	author='GreyAlien502',
