@@ -167,6 +167,7 @@ class Sprite:
 		return copied
 
 	def _be(self, path):
+		""" Set the sprite to be the same as that contained in path. """
 		f = open(path+"/list",'r')
 		filelecian = f.read().splitlines()
 		f.close()

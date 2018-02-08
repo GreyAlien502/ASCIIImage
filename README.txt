@@ -1,6 +1,5 @@
-Works with images made of ASCII text.
-Allows various functions like layering images (with alpha).
-Really it should work with any unicode text,
-but non-ASCII characters may not display
-correctly on some terminals.
-Made for python 3.
+Provide tools to work with ASCII-art images and videos.
+
+It provides classes and functions for manipulating ASCII-art.
+Really it should work with any unicode text (not just ASCII),
+so long as every character is rendered with the same width.
